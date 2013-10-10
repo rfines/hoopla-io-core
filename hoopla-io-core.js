@@ -25,6 +25,11 @@
     }
   });
 
+  SocialMediaLinkSchema = new Schema({
+    target: String,
+    url: String
+  });
+
   BusinessSchema = new Schema({
     name: {
       type: String,
@@ -71,7 +76,26 @@
         coordinates: [Number]
       }
     },
-    socialMediaLinks: [SocialMediaLink],
+    sources: [
+      {
+        'type': {
+          type: String,
+          required: true
+        },
+        sourceId: {
+          type: Number,
+          required: true
+        },
+        data: {
+          type: Mixed
+        },
+        lastUpdated: {
+          type: Date,
+          required: true
+        }
+      }
+    ],
+    socialMediaLinks: [SocialMediaLinkSchema],
     promotionTargets: [
       {
         type: ObjectId,
@@ -171,7 +195,7 @@
       }
     },
     ticketUrl: String,
-    socialMediaLinks: [SocialMediaLinks],
+    socialMediaLinks: [SocialMediaLinkSchema],
     fixedOccurrences: [
       {
         start: Date,
@@ -187,6 +211,23 @@
         dayOfWeek: [Number],
         start: Date,
         end: Date
+      }
+    ],
+    sources: [
+      {
+        'type': {
+          type: String,
+          required: true
+        },
+        sourceId: {
+          type: Number,
+          required: true
+        },
+        data: Mixed,
+        lastUpdated: {
+          type: Date,
+          required: true
+        }
       }
     ],
     occurrences: [OccurrenceSchema],
@@ -344,11 +385,6 @@
     profileCoverPhoto: String,
     profileId: String,
     expiration: Date
-  });
-
-  SocialMediaLinkSchema = new Schema({
-    target: String,
-    url: String
   });
 
   UserSchema = new Schema({

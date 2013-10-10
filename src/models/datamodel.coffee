@@ -15,6 +15,10 @@ ApiUsageSchema = new mongoose.Schema
   apiToken:
     type:String        
 
+SocialMediaLinkSchema = new Schema
+  target: String
+  url: String  
+
 BusinessSchema = new Schema
   name: 
     type: String
@@ -48,7 +52,22 @@ BusinessSchema = new Schema
       coordinates: [Number]
     }    
   }
-  socialMediaLinks:[SocialMediaLink]
+  sources:[
+    {
+      'type':
+        type:String
+        required:true
+      sourceId: 
+        type:Number
+        required:true
+      data: 
+        type:Mixed
+      lastUpdated: 
+        type:Date
+        required:true
+    }
+  ]    
+  socialMediaLinks:[SocialMediaLinkSchema]
   promotionTargets: [{type:ObjectId, ref : 'promotionTarget'}]
   legacyId: String
   legacyCreatedBy: String    
@@ -114,7 +133,7 @@ EventSchema = new Schema
     }
   }    
   ticketUrl: String
-  socialMediaLinks: [SocialMediaLinks]
+  socialMediaLinks: [SocialMediaLinkSchema]
   fixedOccurrences: [
     {
       start: Date
@@ -132,6 +151,20 @@ EventSchema = new Schema
       end: Date
     }
   ]
+  sources:[
+    {
+      'type':
+        type:String
+        required:true
+      sourceId: 
+        type:Number
+        required:true
+      data: Mixed
+      lastUpdated: 
+        type:Date
+        required:true
+    }
+  ]    
   occurrences:[OccurrenceSchema]
   nextOccurrence: {start: Date, end:Date}
   prevOccurrence: {start: Date, end:Date}
@@ -250,11 +283,7 @@ PromotionTargetSchema = new mongoose.Schema
   profileName: String
   profileCoverPhoto:String
   profileId: String
-  expiration: Date
-
-SocialMediaLinkSchema = new Schema
-  target: String
-  url: String    
+  expiration: Date  
 
 UserSchema = new Schema
   userType:
