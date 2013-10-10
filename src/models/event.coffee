@@ -92,6 +92,7 @@ EventSchema = new Schema
   legacyImage: String
   tzOffset : Number
 
+###
 EventSchema.pre 'save', (next) ->
   scheduleService = require('../services/schedulingService')
   scheduleService.calculate @, (err, out) =>
@@ -110,8 +111,10 @@ EventSchema.pre 'update', (next) ->
       @nextOccurrence = out.nextOccurrence
       @prevOccurrence = out.prevOccurrence      
     next()
+###
 
 module.exports = 
   Event : mongoose.model('event', EventSchema, 'event')
+  EventSchema : EventSchema
 
 

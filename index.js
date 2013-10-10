@@ -327,42 +327,31 @@
     tzOffset: Number
   });
 
-  EventSchema.pre('save', function(next) {
-    var scheduleService,
-      _this = this;
-    scheduleService = require('../services/schedulingService');
-    return scheduleService.calculate(this, function(err, out) {
-      if (!err) {
-        if (out.occurrences != null) {
-          _this.occurrences = out.occurrences;
-        }
-        _this.scheduleText = out.scheduleText;
-        _this.nextOccurrence = out.nextOccurrence;
-        _this.prevOccurrence = out.prevOccurrence;
-      }
-      return next();
-    });
-  });
+  /*
+  EventSchema.pre 'save', (next) ->
+    scheduleService = require('../services/schedulingService')
+    scheduleService.calculate @, (err, out) =>
+      if not err
+        @occurrences = out.occurrences if out.occurrences?
+        @scheduleText = out.scheduleText
+        @nextOccurrence = out.nextOccurrence
+        @prevOccurrence = out.prevOccurrence
+      next()
+  EventSchema.pre 'update', (next) ->
+    scheduleService = require('../services/schedulingService')
+    scheduleService.calculate @, (err, out) =>
+      if not err
+        @occurrences = out.occurrences if out.occurrences?
+        @scheduleText = out.scheduleText
+        @nextOccurrence = out.nextOccurrence
+        @prevOccurrence = out.prevOccurrence      
+      next()
+  */
 
-  EventSchema.pre('update', function(next) {
-    var scheduleService,
-      _this = this;
-    scheduleService = require('../services/schedulingService');
-    return scheduleService.calculate(this, function(err, out) {
-      if (!err) {
-        if (out.occurrences != null) {
-          _this.occurrences = out.occurrences;
-        }
-        _this.scheduleText = out.scheduleText;
-        _this.nextOccurrence = out.nextOccurrence;
-        _this.prevOccurrence = out.prevOccurrence;
-      }
-      return next();
-    });
-  });
 
   module.exports = {
-    Event: mongoose.model('event', EventSchema, 'event')
+    Event: mongoose.model('event', EventSchema, 'event'),
+    EventSchema: EventSchema
   };
 
 }).call(this);
