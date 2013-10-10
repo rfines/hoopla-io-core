@@ -1,0 +1,21 @@
+{
+  "name": "hoopla-io-core",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@bitbucket.org/adamnengland/hoopla-io-core.git"
+  },
+  "devDependencies": {
+    "grunt-cli": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-coffee": "*"
+  },
+  "author": "",
+  "license": "BSD-2-Clause"
+}
