@@ -1,7 +1,11 @@
 (function() {
-  var ApiUsageSchema, mongoose;
+  var ApiUsageSchema, BusinessSchema, BusinessTagSchema, CollaboratorRequestSchema, EventSchema, EventTagSchema, FeedSchema, MediaSchema, ObjectId, OccurrenceSchema, PasswordResetSchema, PostalCodeSchema, PromotionRequestSchema, PromotionTargetSchema, Schema, SocialMediaLinkSchema, UserSchema, WidgetSchema, mongoose;
 
   mongoose = require('mongoose');
+
+  Schema = mongoose.Schema;
+
+  ObjectId = mongoose.Schema.ObjectId;
 
   ApiUsageSchema = new mongoose.Schema({
     method: {
@@ -20,29 +24,6 @@
       type: String
     }
   });
-
-  module.exports = {
-    ApiUsage: mongoose.model('apiUsage', ApiUsageSchema, 'apiUsage')
-  };
-
-}).call(this);
-
-(function() {
-  var BusinessSchema, Contact, Media, ObjectId, Schema, SocialMediaLink, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
-  Contact = require('./contact');
-
-  Media = require('./media').MediaSchema;
-
-  SocialMediaLink = require('./socialMediaLink').SocialMediaLinkSchema;
-
-  require('./promotionTarget').PromotionTargetSchema;
 
   BusinessSchema = new Schema({
     name: {
@@ -101,22 +82,6 @@
     legacyCreatedBy: String
   });
 
-  module.exports = {
-    Business: mongoose.model('business', BusinessSchema, 'business'),
-    BusinessSchema: BusinessSchema
-  };
-
-}).call(this);
-
-(function() {
-  var BusinessTagSchema, ObjectId, Schema, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
   BusinessTagSchema = new Schema({
     text: {
       type: String,
@@ -131,84 +96,12 @@
     }
   });
 
-  module.exports = {
-    EventCategory: mongoose.model("businessTag", BusinessTagSchema, 'businessTag')
-  };
-
-}).call(this);
-
-(function() {
-  var CollaboratorRequestSchema, ObjectId, Schema, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
   CollaboratorRequestSchema = new Schema({
     requestDate: Date,
     completedDate: Date,
     businessId: ObjectId,
     email: String
   });
-
-  module.exports = {
-    CollaboratorRequest: mongoose.model('collaboratorRequest', CollaboratorRequestSchema, 'collaboratorRequest'),
-    CollaboratorRequestSchema: CollaboratorRequestSchema
-  };
-
-}).call(this);
-
-(function() {
-  var ContactSchema, ObjectId, Schema, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
-  ContactSchema = new Schema({
-    name: {
-      type: String,
-      trim: true
-    },
-    phone: {
-      type: String,
-      trim: true
-    },
-    email: {
-      type: String,
-      trim: true
-    }
-  });
-
-  module["export"] = {
-    Contact: mongoose.model('contact', ContactSchema),
-    ContactSchema: ContactSchema
-  };
-
-}).call(this);
-
-(function() {
-  var Business, Contact, EventSchema, Media, ObjectId, OccurrenceSchema, PromotionRequest, Schema, SocialMediaLinks, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
-  Media = require('./media').MediaSchema;
-
-  Contact = require('./contact').ContactSchema;
-
-  SocialMediaLinks = require('./socialMediaLink').SocialMediaLinkSchema;
-
-  Business = require('./business').BusinessSchema;
-
-  PromotionRequest = require('./promotionRequest').PromtionRequestSchema;
 
   OccurrenceSchema = new Schema({
     start: Date,
@@ -327,44 +220,6 @@
     tzOffset: Number
   });
 
-  /*
-  EventSchema.pre 'save', (next) ->
-    scheduleService = require('../services/schedulingService')
-    scheduleService.calculate @, (err, out) =>
-      if not err
-        @occurrences = out.occurrences if out.occurrences?
-        @scheduleText = out.scheduleText
-        @nextOccurrence = out.nextOccurrence
-        @prevOccurrence = out.prevOccurrence
-      next()
-  EventSchema.pre 'update', (next) ->
-    scheduleService = require('../services/schedulingService')
-    scheduleService.calculate @, (err, out) =>
-      if not err
-        @occurrences = out.occurrences if out.occurrences?
-        @scheduleText = out.scheduleText
-        @nextOccurrence = out.nextOccurrence
-        @prevOccurrence = out.prevOccurrence      
-      next()
-  */
-
-
-  module.exports = {
-    Event: mongoose.model('event', EventSchema, 'event'),
-    EventSchema: EventSchema
-  };
-
-}).call(this);
-
-(function() {
-  var EventTagSchema, ObjectId, Schema, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
   EventTagSchema = new Schema({
     text: {
       type: String,
@@ -378,19 +233,6 @@
       uppercase: true
     }
   });
-
-  module.exports = {
-    EventTag: mongoose.model("eventTag", EventTagSchema, 'eventTag')
-  };
-
-}).call(this);
-
-(function() {
-  var FeedSchema, ObjectId, mongoose;
-
-  mongoose = require('mongoose');
-
-  ObjectId = mongoose.Schema.ObjectId;
 
   FeedSchema = new mongoose.Schema({
     feedType: {
@@ -412,22 +254,6 @@
     user: ObjectId
   });
 
-  module.exports = {
-    Feed: mongoose.model('feed', FeedSchema, 'feed'),
-    FeedSchema: FeedSchema
-  };
-
-}).call(this);
-
-(function() {
-  var MediaSchema, ObjectId, Schema, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
   MediaSchema = new Schema({
     url: {
       type: String,
@@ -440,44 +266,12 @@
     }
   });
 
-  module.exports = {
-    Media: mongoose.model('media', MediaSchema, 'media'),
-    MediaSchema: MediaSchema
-  };
-
-}).call(this);
-
-(function() {
-  var ObjectId, PasswordResetSchema, Schema, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
   PasswordResetSchema = new Schema({
     requestDate: Date,
     completedDate: Date,
     token: String,
     email: String
   });
-
-  module.exports = {
-    PasswordReset: mongoose.model('passwordReset', PasswordResetSchema, 'passwordReset'),
-    PasswordResetSchema: PasswordResetSchema
-  };
-
-}).call(this);
-
-(function() {
-  var ObjectId, PostalCodeSchema, Schema, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
 
   PostalCodeSchema = new Schema({
     code: {
@@ -499,21 +293,6 @@
       coordinates: [Number]
     }
   });
-
-  module.exports = {
-    PostalCode: mongoose.model('postalCode', PostalCodeSchema, 'postalCode')
-  };
-
-}).call(this);
-
-(function() {
-  var ObjectId, PromotionRequestSchema, mongoose;
-
-  mongoose = require('mongoose');
-
-  ObjectId = mongoose.Schema.ObjectId;
-
-  require('./promotionTarget').PromotionTargetSchema;
 
   PromotionRequestSchema = new mongoose.Schema({
     pushType: String,
@@ -553,20 +332,6 @@
     }
   });
 
-  module.exports = {
-    PromotionRequest: mongoose.model('promotionRequest', PromotionRequestSchema, 'promotionRequest'),
-    PromotionRequestSchema: PromotionRequestSchema
-  };
-
-}).call(this);
-
-(function() {
-  var ObjectId, PromotionTargetSchema, mongoose;
-
-  mongoose = require('mongoose');
-
-  ObjectId = mongoose.Schema.ObjectId;
-
   PromotionTargetSchema = new mongoose.Schema({
     accountType: {
       type: String,
@@ -581,44 +346,10 @@
     expiration: Date
   });
 
-  module.exports = {
-    PromotionTarget: mongoose.model('promotionTarget', PromotionTargetSchema, 'promotionTarget'),
-    PromotionTargetSchema: PromotionTargetSchema
-  };
-
-}).call(this);
-
-(function() {
-  var ObjectId, Schema, SocialMediaLinkSchema, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
   SocialMediaLinkSchema = new Schema({
     target: String,
     url: String
   });
-
-  module["export"] = {
-    SocialMediaLink: mongoose.model('socialMediaLink', SocialMediaLinkSchema),
-    SocialMediaLinkSchema: SocialMediaLinkSchema
-  };
-
-}).call(this);
-
-(function() {
-  var Business, ObjectId, Schema, UserSchema, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
-  Business = require('./business').BusinessSchema;
 
   UserSchema = new Schema({
     userType: {
@@ -680,25 +411,6 @@
     legacyProfiles: [String]
   });
 
-  module.exports = {
-    User: mongoose.model('user', UserSchema, 'user')
-  };
-
-}).call(this);
-
-(function() {
-  var Business, ObjectId, Schema, User, WidgetSchema, mongoose;
-
-  mongoose = require('mongoose');
-
-  Schema = mongoose.Schema;
-
-  ObjectId = mongoose.Schema.ObjectId;
-
-  Business = require('./business').BusinessSchema;
-
-  User = require('./user').UserSchema;
-
   WidgetSchema = new Schema({
     widgetType: {
       type: String,
@@ -745,6 +457,29 @@
   });
 
   module.exports = {
+    ApiUsage: mongoose.model('apiUsage', ApiUsageSchema, 'apiUsage'),
+    Business: mongoose.model('business', BusinessSchema, 'business'),
+    BusinessSchema: BusinessSchema,
+    BusinessTag: mongoose.model("businessTag", BusinessTagSchema, 'businessTag'),
+    CollaboratorRequest: mongoose.model('collaboratorRequest', CollaboratorRequestSchema, 'collaboratorRequest'),
+    CollaboratorRequestSchema: CollaboratorRequestSchema,
+    Event: mongoose.model('event', EventSchema, 'event'),
+    EventSchema: EventSchema,
+    EventTag: mongoose.model("eventTag", EventTagSchema, 'eventTag'),
+    Feed: mongoose.model('feed', FeedSchema, 'feed'),
+    FeedSchema: FeedSchema,
+    Media: mongoose.model('media', MediaSchema, 'media'),
+    MediaSchema: MediaSchema,
+    PasswordReset: mongoose.model('passwordReset', PasswordResetSchema, 'passwordReset'),
+    PasswordResetSchema: PasswordResetSchema,
+    PostalCode: mongoose.model('postalCode', PostalCodeSchema, 'postalCode'),
+    PromotionRequest: mongoose.model('promotionRequest', PromotionRequestSchema, 'promotionRequest'),
+    PromotionRequestSchema: PromotionRequestSchema,
+    PromotionTarget: mongoose.model('promotionTarget', PromotionTargetSchema, 'promotionTarget'),
+    PromotionTargetSchema: PromotionTargetSchema,
+    SocialMediaLink: mongoose.model('socialMediaLink', SocialMediaLinkSchema),
+    SocialMediaLinkSchema: SocialMediaLinkSchema,
+    User: mongoose.model('user', UserSchema, 'user'),
     Widget: mongoose.model('widget', WidgetSchema, 'widget'),
     WidgetSchema: WidgetSchema
   };

@@ -18,7 +18,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: ['temp/**/*.js'],
-        dest: 'index.js'
+        dest: 'hoopla-io-core.js'
       }
     },
     clean : ["temp"]
