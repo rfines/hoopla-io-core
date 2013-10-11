@@ -61,8 +61,7 @@ BusinessSchema = new Schema
       sourceId: 
         type:Number
         required:true
-      data: 
-        type:Mixed
+      data:Mixed
       lastUpdated: 
         type:Date
         required:true
