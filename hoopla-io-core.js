@@ -7,7 +7,7 @@
 
   ObjectId = mongoose.Schema.ObjectId;
 
-  Mixed = mongoose.Schema.Mixed;
+  Mixed = mongoose.Schema.Types.Mixed;
 
   ApiUsageSchema = new mongoose.Schema({
     method: {
@@ -40,7 +40,6 @@
     },
     description: {
       type: String,
-      required: true,
       trim: true
     },
     hours: {
@@ -88,9 +87,7 @@
           type: Number,
           required: true
         },
-        data: {
-          type: Mixed
-        },
+        data: Mixed,
         lastUpdated: {
           type: Date,
           required: true
@@ -145,7 +142,6 @@
     },
     description: {
       type: String,
-      required: true,
       trim: true
     },
     host: {
