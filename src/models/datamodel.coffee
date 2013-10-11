@@ -1,7 +1,7 @@
 mongoose = require('mongoose')
 Schema = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
-Mixed = mongoose.Schema.Mixed
+Mixed = mongoose.Schema.Types.Mixed
 
 ApiUsageSchema = new mongoose.Schema
   method:
