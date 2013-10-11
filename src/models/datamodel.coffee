@@ -27,7 +27,6 @@ BusinessSchema = new Schema
     trim: true
   description:
     type: String
-    required: true
     trim: true
   hours:
     type: String
@@ -104,7 +103,6 @@ EventSchema = new Schema
     trim: true
   description:
     type: String
-    required: true
     trim: true
   host: {type:ObjectId, ref:'business'}
   business : {type:ObjectId, ref:'business', required:true}
