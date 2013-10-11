@@ -1,11 +1,13 @@
 (function() {
-  var ApiUsageSchema, BusinessSchema, BusinessTagSchema, CollaboratorRequestSchema, EventSchema, EventTagSchema, FeedSchema, MediaSchema, ObjectId, OccurrenceSchema, PasswordResetSchema, PostalCodeSchema, PromotionRequestSchema, PromotionTargetSchema, Schema, SocialMediaLinkSchema, UserSchema, WidgetSchema, mongoose;
+  var ApiUsageSchema, BusinessSchema, BusinessTagSchema, CollaboratorRequestSchema, EventSchema, EventTagSchema, FeedSchema, MediaSchema, Mixed, ObjectId, OccurrenceSchema, PasswordResetSchema, PostalCodeSchema, PromotionRequestSchema, PromotionTargetSchema, Schema, SocialMediaLinkSchema, UserSchema, WidgetSchema, mongoose;
 
   mongoose = require('mongoose');
 
   Schema = mongoose.Schema;
 
   ObjectId = mongoose.Schema.ObjectId;
+
+  Mixed = mongoose.Schema.Mixed;
 
   ApiUsageSchema = new mongoose.Schema({
     method: {
