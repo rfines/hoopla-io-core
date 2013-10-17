@@ -2,7 +2,7 @@ moment = require 'moment'
 later = require 'later'
 _ = require 'lodash'
 
-calculate= (item,cb) ->
+module.exports.Scheduler.calculate= (item,cb) ->
   if item.schedules.length > 0
     out = {}
     occurrences = []
@@ -59,7 +59,7 @@ calculate= (item,cb) ->
     out.nextOccurrence = nextOccurrence
     cb null, out
 
-forLater = (item, cb) ->
+module.exports.Scheduler.forLater = (item, cb) ->
   output = {}
   if item.day?.length
     output.d = item.day
@@ -91,7 +91,7 @@ makeArray = (p) ->
   else 
     return [p]
 
-scheduleText= (event) ->
+module.exports.Scheduler.scheduleText= (event) ->
   out = ""
   dayOrder =  ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   dayCountOrder = ['Last', 'First', 'Second', 'Third', 'Fourth']
@@ -116,8 +116,3 @@ scheduleText= (event) ->
     return out
   else
     return out
-
-module.exports = 
-  calculate : calculate
-  scheduleText : scheduleText
-  forLater : forLater

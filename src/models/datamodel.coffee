@@ -2,6 +2,9 @@ mongoose = require('mongoose')
 Schema = mongoose.Schema
 ObjectId = mongoose.Schema.ObjectId
 Mixed = mongoose.Schema.Types.Mixed
+moment = require 'moment'
+later = require 'later'
+_ = require 'lodash'
 
 ApiUsageSchema = new mongoose.Schema
   method:
@@ -188,8 +191,7 @@ EventSchema = new Schema
   tzOffset : Number  
 
 EventSchema.pre 'save', (next) ->
-  scheduleService = schedulingService
-  scheduleService.calculate @, (err, out) =>
+  Scheduler.calculate @, (err, out) =>
     if not err
       @occurrences = out.occurrences if out.occurrences?
       @scheduleText = out.scheduleText
@@ -197,8 +199,7 @@ EventSchema.pre 'save', (next) ->
       @prevOccurrence = out.prevOccurrence
     next()
 EventSchema.pre 'update', (next) ->
-  scheduleService = schedulingService
-  scheduleService.calculate @, (err, out) =>
+  Scheduler.calculate @, (err, out) =>
     if not err
       @occurrences = out.occurrences if out.occurrences?
       @scheduleText = out.scheduleText
@@ -378,29 +379,18 @@ WidgetSchema = new Schema
   }
   accentColor: String    
 
-module.exports = 
-  ApiUsage : mongoose.model('apiUsage', ApiUsageSchema, 'apiUsage')
-  Business : mongoose.model('business', BusinessSchema,'business')
-  BusinessSchema: BusinessSchema
-  BusinessTag : mongoose.model("businessTag", BusinessTagSchema, 'businessTag')  
-  CollaboratorRequest: mongoose.model('collaboratorRequest',CollaboratorRequestSchema, 'collaboratorRequest')
-  CollaboratorRequestSchema : CollaboratorRequestSchema  
-  Event : mongoose.model('event', EventSchema, 'event')
-  EventSchema : EventSchema  
-  EventTag : mongoose.model("eventTag", EventTagSchema, 'eventTag')
-  Feed : mongoose.model('feed', FeedSchema, 'feed')
-  FeedSchema : FeedSchema  
-  Media: mongoose.model('media',MediaSchema, 'media')
-  MediaSchema : MediaSchema  
-  PasswordReset: mongoose.model('passwordReset',PasswordResetSchema, 'passwordReset')
-  PasswordResetSchema : PasswordResetSchema  
-  PostalCode : mongoose.model('postalCode', PostalCodeSchema, 'postalCode')  
-  PromotionRequest : mongoose.model('promotionRequest', PromotionRequestSchema, 'promotionRequest')
-  PromotionRequestSchema : PromotionRequestSchema  
-  PromotionTarget : mongoose.model('promotionTarget', PromotionTargetSchema, 'promotionTarget')
-  PromotionTargetSchema : PromotionTargetSchema  
-  SocialMediaLink: mongoose.model('socialMediaLink', SocialMediaLinkSchema)
-  SocialMediaLinkSchema : SocialMediaLinkSchema  
-  User : mongoose.model('user', UserSchema, 'user')
-  Widget : mongoose.model('widget', WidgetSchema, 'widget')
-  WidgetSchema: WidgetSchema  
+module.exports.ApiUsage = mongoose.model('apiUsage', ApiUsageSchema, 'apiUsage')
+module.exports.Business = mongoose.model('business', BusinessSchema,'business')
+module.exports.BusinessTag = mongoose.model("businessTag", BusinessTagSchema, 'businessTag')  
+module.exports.CollaboratorRequest= mongoose.model('collaboratorRequest',CollaboratorRequestSchema, 'collaboratorRequest')
+module.exports.Event = mongoose.model('event', EventSchema, 'event')
+module.exports.EventTag = mongoose.model("eventTag", EventTagSchema, 'eventTag')
+module.exports.Feed = mongoose.model('feed', FeedSchema, 'feed')
+module.exports.Media= mongoose.model('media',MediaSchema, 'media')
+module.exports.PasswordReset= mongoose.model('passwordReset',PasswordResetSchema, 'passwordReset')
+module.exports.PostalCode = mongoose.model('postalCode', PostalCodeSchema, 'postalCode')  
+module.exports.PromotionRequest = mongoose.model('promotionRequest', PromotionRequestSchema, 'promotionRequest')
+module.exports.PromotionTarget = mongoose.model('promotionTarget', PromotionTargetSchema, 'promotionTarget')
+module.exports.SocialMediaLink= mongoose.model('socialMediaLink', SocialMediaLinkSchema)
+module.exports.User = mongoose.model('user', UserSchema, 'user')
+module.exports.Widget = mongoose.model('widget', WidgetSchema, 'widget')

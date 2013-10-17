@@ -1,5 +1,5 @@
 (function() {
-  var ApiUsageSchema, BusinessSchema, BusinessTagSchema, CollaboratorRequestSchema, EventSchema, EventTagSchema, FeedSchema, MediaSchema, Mixed, ObjectId, OccurrenceSchema, PasswordResetSchema, PostalCodeSchema, PromotionRequestSchema, PromotionTargetSchema, Schema, SocialMediaLinkSchema, UserSchema, WidgetSchema, mongoose;
+  var ApiUsageSchema, BusinessSchema, BusinessTagSchema, CollaboratorRequestSchema, EventSchema, EventTagSchema, FeedSchema, MediaSchema, Mixed, ObjectId, OccurrenceSchema, PasswordResetSchema, PostalCodeSchema, PromotionRequestSchema, PromotionTargetSchema, Schema, SocialMediaLinkSchema, UserSchema, WidgetSchema, later, moment, mongoose, _;
 
   mongoose = require('mongoose');
 
@@ -8,6 +8,12 @@
   ObjectId = mongoose.Schema.ObjectId;
 
   Mixed = mongoose.Schema.Types.Mixed;
+
+  moment = require('moment');
+
+  later = require('later');
+
+  _ = require('lodash');
 
   ApiUsageSchema = new mongoose.Schema({
     method: {
@@ -260,10 +266,8 @@
   });
 
   EventSchema.pre('save', function(next) {
-    var scheduleService,
-      _this = this;
-    scheduleService = schedulingService;
-    return scheduleService.calculate(this, function(err, out) {
+    var _this = this;
+    return Scheduler.calculate(this, function(err, out) {
       if (!err) {
         if (out.occurrences != null) {
           _this.occurrences = out.occurrences;
@@ -277,10 +281,8 @@
   });
 
   EventSchema.pre('update', function(next) {
-    var scheduleService,
-      _this = this;
-    scheduleService = schedulingService;
-    return scheduleService.calculate(this, function(err, out) {
+    var _this = this;
+    return Scheduler.calculate(this, function(err, out) {
       if (!err) {
         if (out.occurrences != null) {
           _this.occurrences = out.occurrences;
@@ -524,38 +526,40 @@
     accentColor: String
   });
 
-  module.exports = {
-    ApiUsage: mongoose.model('apiUsage', ApiUsageSchema, 'apiUsage'),
-    Business: mongoose.model('business', BusinessSchema, 'business'),
-    BusinessSchema: BusinessSchema,
-    BusinessTag: mongoose.model("businessTag", BusinessTagSchema, 'businessTag'),
-    CollaboratorRequest: mongoose.model('collaboratorRequest', CollaboratorRequestSchema, 'collaboratorRequest'),
-    CollaboratorRequestSchema: CollaboratorRequestSchema,
-    Event: mongoose.model('event', EventSchema, 'event'),
-    EventSchema: EventSchema,
-    EventTag: mongoose.model("eventTag", EventTagSchema, 'eventTag'),
-    Feed: mongoose.model('feed', FeedSchema, 'feed'),
-    FeedSchema: FeedSchema,
-    Media: mongoose.model('media', MediaSchema, 'media'),
-    MediaSchema: MediaSchema,
-    PasswordReset: mongoose.model('passwordReset', PasswordResetSchema, 'passwordReset'),
-    PasswordResetSchema: PasswordResetSchema,
-    PostalCode: mongoose.model('postalCode', PostalCodeSchema, 'postalCode'),
-    PromotionRequest: mongoose.model('promotionRequest', PromotionRequestSchema, 'promotionRequest'),
-    PromotionRequestSchema: PromotionRequestSchema,
-    PromotionTarget: mongoose.model('promotionTarget', PromotionTargetSchema, 'promotionTarget'),
-    PromotionTargetSchema: PromotionTargetSchema,
-    SocialMediaLink: mongoose.model('socialMediaLink', SocialMediaLinkSchema),
-    SocialMediaLinkSchema: SocialMediaLinkSchema,
-    User: mongoose.model('user', UserSchema, 'user'),
-    Widget: mongoose.model('widget', WidgetSchema, 'widget'),
-    WidgetSchema: WidgetSchema
-  };
+  module.exports.ApiUsage = mongoose.model('apiUsage', ApiUsageSchema, 'apiUsage');
+
+  module.exports.Business = mongoose.model('business', BusinessSchema, 'business');
+
+  module.exports.BusinessTag = mongoose.model("businessTag", BusinessTagSchema, 'businessTag');
+
+  module.exports.CollaboratorRequest = mongoose.model('collaboratorRequest', CollaboratorRequestSchema, 'collaboratorRequest');
+
+  module.exports.Event = mongoose.model('event', EventSchema, 'event');
+
+  module.exports.EventTag = mongoose.model("eventTag", EventTagSchema, 'eventTag');
+
+  module.exports.Feed = mongoose.model('feed', FeedSchema, 'feed');
+
+  module.exports.Media = mongoose.model('media', MediaSchema, 'media');
+
+  module.exports.PasswordReset = mongoose.model('passwordReset', PasswordResetSchema, 'passwordReset');
+
+  module.exports.PostalCode = mongoose.model('postalCode', PostalCodeSchema, 'postalCode');
+
+  module.exports.PromotionRequest = mongoose.model('promotionRequest', PromotionRequestSchema, 'promotionRequest');
+
+  module.exports.PromotionTarget = mongoose.model('promotionTarget', PromotionTargetSchema, 'promotionTarget');
+
+  module.exports.SocialMediaLink = mongoose.model('socialMediaLink', SocialMediaLinkSchema);
+
+  module.exports.User = mongoose.model('user', UserSchema, 'user');
+
+  module.exports.Widget = mongoose.model('widget', WidgetSchema, 'widget');
 
 }).call(this);
 
 (function() {
-  var calculate, forLater, later, makeArray, moment, scheduleText, _;
+  var later, makeArray, moment, _;
 
   moment = require('moment');
 
@@ -563,7 +567,7 @@
 
   _ = require('lodash');
 
-  calculate = function(item, cb) {
+  module.exports.Scheduler.calculate = function(item, cb) {
     var dayCount, e, endRange, m, minutesToAdd, nextOccurrence, now, o, occurrences, out, pastOccurrence, pastOccurrences, s, startRange, transformed, x;
     if (item.schedules.length > 0) {
       out = {};
@@ -655,7 +659,7 @@
     }
   };
 
-  forLater = function(item, cb) {
+  module.exports.Scheduler.forLater = function(item, cb) {
     var output, _ref, _ref1, _ref2;
     output = {};
     if ((_ref = item.day) != null ? _ref.length : void 0) {
@@ -697,7 +701,7 @@
     }
   };
 
-  scheduleText = function(event) {
+  module.exports.Scheduler.scheduleText = function(event) {
     var dayCountOrder, dayOrder, days, endDate, out, s, _ref, _ref1, _ref2, _ref3;
     out = "";
     dayOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -729,12 +733,6 @@
     } else {
       return out;
     }
-  };
-
-  module.exports = {
-    calculate: calculate,
-    scheduleText: scheduleText,
-    forLater: forLater
   };
 
 }).call(this);
