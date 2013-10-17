@@ -6,6 +6,12 @@ moment = require 'moment'
 later = require 'later'
 _ = require 'lodash'
 
+AggregationJobSchema = new mongoose.Schema
+  name: String
+  provider: String
+  postalCode : String
+  nextRun: Date
+
 ApiUsageSchema = new mongoose.Schema
   method:
     type: String
@@ -394,3 +400,4 @@ module.exports.PromotionTarget = mongoose.model('promotionTarget', PromotionTarg
 module.exports.SocialMediaLink= mongoose.model('socialMediaLink', SocialMediaLinkSchema)
 module.exports.User = mongoose.model('user', UserSchema, 'user')
 module.exports.Widget = mongoose.model('widget', WidgetSchema, 'widget')
+module.exports.AggregationJobSchema = mongoose.model('aggregationJob', AggregationJobSchema, 'aggregationJob')

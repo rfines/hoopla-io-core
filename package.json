@@ -1,11 +1,8 @@
 {
   "name": "hoopla-io-core",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "",
   "main": "hoopla-io-core.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "ssh://git@bitbucket.org/adamnengland/hoopla-io-core.git"

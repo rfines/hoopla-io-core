@@ -1,5 +1,5 @@
 (function() {
-  var ApiUsageSchema, BusinessSchema, BusinessTagSchema, CollaboratorRequestSchema, EventSchema, EventTagSchema, FeedSchema, MediaSchema, Mixed, ObjectId, OccurrenceSchema, PasswordResetSchema, PostalCodeSchema, PromotionRequestSchema, PromotionTargetSchema, Schema, SocialMediaLinkSchema, UserSchema, WidgetSchema, later, moment, mongoose, _;
+  var AggregationJobSchema, ApiUsageSchema, BusinessSchema, BusinessTagSchema, CollaboratorRequestSchema, EventSchema, EventTagSchema, FeedSchema, MediaSchema, Mixed, ObjectId, OccurrenceSchema, PasswordResetSchema, PostalCodeSchema, PromotionRequestSchema, PromotionTargetSchema, Schema, SocialMediaLinkSchema, UserSchema, WidgetSchema, later, moment, mongoose, _;
 
   mongoose = require('mongoose');
 
@@ -14,6 +14,13 @@
   later = require('later');
 
   _ = require('lodash');
+
+  AggregationJobSchema = new mongoose.Schema({
+    name: String,
+    provider: String,
+    postalCode: String,
+    nextRun: Date
+  });
 
   ApiUsageSchema = new mongoose.Schema({
     method: {
@@ -555,6 +562,8 @@
   module.exports.User = mongoose.model('user', UserSchema, 'user');
 
   module.exports.Widget = mongoose.model('widget', WidgetSchema, 'widget');
+
+  module.exports.AggregationJobSchema = mongoose.model('aggregationJob', AggregationJobSchema, 'aggregationJob');
 
 }).call(this);
 
