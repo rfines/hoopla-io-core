@@ -259,6 +259,40 @@
     tzOffset: Number
   });
 
+  EventSchema.pre('save', function(next) {
+    var scheduleService,
+      _this = this;
+    scheduleService = schedulingService;
+    return scheduleService.calculate(this, function(err, out) {
+      if (!err) {
+        if (out.occurrences != null) {
+          _this.occurrences = out.occurrences;
+        }
+        _this.scheduleText = out.scheduleText;
+        _this.nextOccurrence = out.nextOccurrence;
+        _this.prevOccurrence = out.prevOccurrence;
+      }
+      return next();
+    });
+  });
+
+  EventSchema.pre('update', function(next) {
+    var scheduleService,
+      _this = this;
+    scheduleService = schedulingService;
+    return scheduleService.calculate(this, function(err, out) {
+      if (!err) {
+        if (out.occurrences != null) {
+          _this.occurrences = out.occurrences;
+        }
+        _this.scheduleText = out.scheduleText;
+        _this.nextOccurrence = out.nextOccurrence;
+        _this.prevOccurrence = out.prevOccurrence;
+      }
+      return next();
+    });
+  });
+
   EventTagSchema = new Schema({
     text: {
       type: String,
@@ -516,6 +550,191 @@
     User: mongoose.model('user', UserSchema, 'user'),
     Widget: mongoose.model('widget', WidgetSchema, 'widget'),
     WidgetSchema: WidgetSchema
+  };
+
+}).call(this);
+
+(function() {
+  var calculate, forLater, later, makeArray, moment, scheduleText, _;
+
+  moment = require('moment');
+
+  later = require('later');
+
+  _ = require('lodash');
+
+  calculate = function(item, cb) {
+    var dayCount, e, endRange, m, minutesToAdd, nextOccurrence, now, o, occurrences, out, pastOccurrence, pastOccurrences, s, startRange, transformed, x;
+    if (item.schedules.length > 0) {
+      out = {};
+      occurrences = [];
+      dayCount = 60;
+      if (item.dayCount) {
+        dayCount = item.dayCount;
+      }
+      now = moment();
+      startRange = new Date();
+      endRange = new Date();
+      startRange = new Date(now);
+      x = item.schedules[0];
+      transformed = {};
+      forLater(x, function(err, result) {
+        if (!err) {
+          return transformed = result;
+        } else {
+          return console.log(err);
+        }
+      });
+      if (x.end) {
+        endRange = new Date(x.end);
+      } else {
+        endRange = new Date(moment().add('days', dayCount));
+      }
+      if (moment(x.start).isAfter(now)) {
+        startRange = new Date(x.start);
+      } else {
+        startRange = new Date(now);
+      }
+      occurrences = later.schedule({
+        schedules: [transformed]
+      }).next(dayCount, startRange, endRange);
+      occurrences = _.map(occurrences, function(o) {
+        var e, m, s;
+        m = moment(o);
+        s = moment(m.toDate()).toDate();
+        e = moment(m.toDate()).add('minutes', x.duration).toDate();
+        return {
+          start: s,
+          end: e
+        };
+      });
+      out.occurrences = occurrences;
+      pastOccurrence = later.schedule({
+        schedules: [transformed]
+      }).prev(1);
+      m = moment(pastOccurrence);
+      s = moment(m.toDate()).toDate();
+      e = moment(m.toDate()).add('minutes', x.duration).toDate();
+      pastOccurrence = {
+        start: s,
+        end: e
+      };
+      if (pastOccurrence) {
+        out.prevOccurrence = pastOccurrence;
+      }
+      out.scheduleText = scheduleText(item);
+      if ((occurrences != null ? occurrences.length : void 0) > 0) {
+        out.nextOccurrence = _.first(occurrences);
+      }
+      return cb(null, out);
+    } else {
+      minutesToAdd = item.tzOffset - moment().zone();
+      o = _.map(item.fixedOccurrences, function(fo) {
+        s = moment(fo.start).subtract('minutes', minutesToAdd);
+        e = moment(fo.end).subtract('minutes', minutesToAdd);
+        return {
+          start: s.toDate(),
+          end: e.toDate()
+        };
+      });
+      out = {
+        occurrences: o,
+        scheduleText: ''
+      };
+      nextOccurrence = _.find(o, function(item) {
+        return moment(item.start).isAfter(moment().startOf('day'));
+      });
+      pastOccurrences = _.filter(o, function(item) {
+        return moment(item.start).isBefore(moment().endOf('day'));
+      });
+      if ((pastOccurrences != null ? pastOccurrences.length : void 0) > 0) {
+        out.prevOccurrence = _.last(pastOccurrences);
+      }
+      out.nextOccurrence = nextOccurrence;
+      return cb(null, out);
+    }
+  };
+
+  forLater = function(item, cb) {
+    var output, _ref, _ref1, _ref2;
+    output = {};
+    if ((_ref = item.day) != null ? _ref.length : void 0) {
+      output.d = item.day;
+    } else if ((_ref1 = item.days) != null ? _ref1.length : void 0) {
+      output.d = item.days;
+    }
+    if (item.h) {
+      output.h = makeArray(item.h);
+    } else if (item.hour) {
+      output.h = makeArray(item.hour);
+    }
+    if (item.m) {
+      output.m = makeArray(item.m);
+    } else if (item.minute) {
+      output.m = makeArray(item.minute);
+    }
+    if (item.dayOfWeek) {
+      output.dw = makeArray(item.dayOfWeek);
+    } else if (item.dw) {
+      output.dw = makeArray(item.dw);
+    }
+    if ((_ref2 = item.dayOfWeekCount) != null ? _ref2.length : void 0) {
+      output.dayOfWeekCount = item.dayOfWeekCount;
+    }
+    if (item.wm) {
+      output.wm = item.wm;
+    } else if (item.weekOfMonth) {
+      output.wm = item.weekOfMonth;
+    }
+    return cb(null, output);
+  };
+
+  makeArray = function(p) {
+    if (_.isArray(p)) {
+      return p;
+    } else {
+      return [p];
+    }
+  };
+
+  scheduleText = function(event) {
+    var dayCountOrder, dayOrder, days, endDate, out, s, _ref, _ref1, _ref2, _ref3;
+    out = "";
+    dayOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    dayCountOrder = ['Last', 'First', 'Second', 'Third', 'Fourth'];
+    if ((_ref = event.schedules) != null ? _ref[0] : void 0) {
+      s = event.schedules[0];
+      s.dayOfWeek = _.sortBy(s.dayOfWeek, function(i) {
+        return i;
+      });
+      endDate = moment(s.end);
+      if (((_ref1 = s.dayOfWeek) != null ? _ref1.length : void 0) === 0 && ((_ref2 = s.dayOfWeekCount) != null ? _ref2.length : void 0) === 0) {
+        out = 'Every Day';
+      } else {
+        days = _.map(s.dayOfWeek, function(i) {
+          return dayOrder[i - 1];
+        });
+        if (((_ref3 = s.dayOfWeekCount) != null ? _ref3.length : void 0) > 0) {
+          out = "The " + dayCountOrder[s.dayOfWeekCount] + " " + (days.join(', ')) + " of the month";
+        } else {
+          out = "Every " + (days.join(', '));
+        }
+        if (s.end) {
+          out = "" + out + " until " + (endDate.format('MM/DD/YYYY'));
+        } else {
+          out = "" + out;
+        }
+      }
+      return out;
+    } else {
+      return out;
+    }
+  };
+
+  module.exports = {
+    calculate: calculate,
+    scheduleText: scheduleText,
+    forLater: forLater
   };
 
 }).call(this);

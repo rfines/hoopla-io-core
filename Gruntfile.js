@@ -21,12 +21,26 @@ module.exports = function(grunt) {
         dest: 'hoopla-io-core.js'
       }
     },
-    clean : ["temp"]
+    clean : ["temp"],
+    simplemocha: {
+      options: {
+        globals: ["should"],
+        timeout: 3000,
+        ignoreLeaks: false,
+        ui: "bdd",
+        reporter: "spec",
+        compiler: "coffee-script"
+      },
+      all: {
+        src: ["test/**/*.coffee"]
+      }
+    }
   });
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks("grunt-simple-mocha");
 
   grunt.registerTask('default', ['coffee', 'concat', 'clean']);
-
+  grunt.registerTask("test", "simplemocha");
 };

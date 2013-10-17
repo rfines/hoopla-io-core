@@ -1,6 +1,6 @@
 {
   "name": "hoopla-io-core",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "main": "hoopla-io-core.js",
   "scripts": {
@@ -10,11 +10,17 @@
     "type": "git",
     "url": "ssh://git@bitbucket.org/adamnengland/hoopla-io-core.git"
   },
+  "dependencies" : {
+    "moment": "~2.2.1",
+    "later": "~1.1.3",
+    "lodash": "1.3.x"
+  },
   "devDependencies": {
     "grunt-cli": "*",
     "grunt-contrib-clean": "*",
     "grunt-contrib-concat": "*",
-    "grunt-contrib-coffee": "*"
+    "grunt-contrib-coffee": "*",
+    "grunt-simple-mocha": "*"
   },
   "author": "",
   "license": "BSD-2-Clause"

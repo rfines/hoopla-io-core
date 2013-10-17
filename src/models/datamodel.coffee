@@ -187,6 +187,25 @@ EventSchema = new Schema
   legacyImage: String
   tzOffset : Number  
 
+EventSchema.pre 'save', (next) ->
+  scheduleService = schedulingService
+  scheduleService.calculate @, (err, out) =>
+    if not err
+      @occurrences = out.occurrences if out.occurrences?
+      @scheduleText = out.scheduleText
+      @nextOccurrence = out.nextOccurrence
+      @prevOccurrence = out.prevOccurrence
+    next()
+EventSchema.pre 'update', (next) ->
+  scheduleService = schedulingService
+  scheduleService.calculate @, (err, out) =>
+    if not err
+      @occurrences = out.occurrences if out.occurrences?
+      @scheduleText = out.scheduleText
+      @nextOccurrence = out.nextOccurrence
+      @prevOccurrence = out.prevOccurrence      
+    next()    
+
 EventTagSchema = new Schema
   text:
     type: String
