@@ -59,7 +59,7 @@ module.exports.Scheduler.calculate= (item,cb) ->
     out.nextOccurrence = nextOccurrence
     cb null, out
 
-module.exports.Scheduler.forLater = (item, cb) ->
+forLater = (item, cb) ->
   output = {}
   if item.day?.length
     output.d = item.day
@@ -91,7 +91,7 @@ makeArray = (p) ->
   else 
     return [p]
 
-module.exports.Scheduler.scheduleText= (event) ->
+scheduleText= (event) ->
   out = ""
   dayOrder =  ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   dayCountOrder = ['Last', 'First', 'Second', 'Third', 'Fourth']

@@ -191,7 +191,7 @@ EventSchema = new Schema
   tzOffset : Number  
 
 EventSchema.pre 'save', (next) ->
-  Scheduler.calculate @, (err, out) =>
+  module.exports.Scheduler.calculate @, (err, out) =>
     if not err
       @occurrences = out.occurrences if out.occurrences?
       @scheduleText = out.scheduleText
@@ -199,7 +199,7 @@ EventSchema.pre 'save', (next) ->
       @prevOccurrence = out.prevOccurrence
     next()
 EventSchema.pre 'update', (next) ->
-  Scheduler.calculate @, (err, out) =>
+  module.exports.Scheduler.calculate @, (err, out) =>
     if not err
       @occurrences = out.occurrences if out.occurrences?
       @scheduleText = out.scheduleText

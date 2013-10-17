@@ -267,7 +267,7 @@
 
   EventSchema.pre('save', function(next) {
     var _this = this;
-    return Scheduler.calculate(this, function(err, out) {
+    return module.exports.Scheduler.calculate(this, function(err, out) {
       if (!err) {
         if (out.occurrences != null) {
           _this.occurrences = out.occurrences;
@@ -282,7 +282,7 @@
 
   EventSchema.pre('update', function(next) {
     var _this = this;
-    return Scheduler.calculate(this, function(err, out) {
+    return module.exports.Scheduler.calculate(this, function(err, out) {
       if (!err) {
         if (out.occurrences != null) {
           _this.occurrences = out.occurrences;
@@ -559,7 +559,7 @@
 }).call(this);
 
 (function() {
-  var later, makeArray, moment, _;
+  var forLater, later, makeArray, moment, scheduleText, _;
 
   moment = require('moment');
 
@@ -659,7 +659,7 @@
     }
   };
 
-  module.exports.Scheduler.forLater = function(item, cb) {
+  forLater = function(item, cb) {
     var output, _ref, _ref1, _ref2;
     output = {};
     if ((_ref = item.day) != null ? _ref.length : void 0) {
@@ -701,7 +701,7 @@
     }
   };
 
-  module.exports.Scheduler.scheduleText = function(event) {
+  scheduleText = function(event) {
     var dayCountOrder, dayOrder, days, endDate, out, s, _ref, _ref1, _ref2, _ref3;
     out = "";
     dayOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
