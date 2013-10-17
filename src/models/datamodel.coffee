@@ -11,6 +11,7 @@ AggregationJobSchema = new mongoose.Schema
   provider: String
   postalCode : String
   nextRun: Date
+  lastRun: Date
 
 ApiUsageSchema = new mongoose.Schema
   method:
@@ -165,35 +166,18 @@ EventSchema = new Schema
         required:true
       sourceId: 
         type:Number
-        required:true
       data: Mixed
       lastUpdated: 
         type:Date
         required:true
+        default: Date.now
     }
   ]    
   occurrences:[OccurrenceSchema]
   nextOccurrence: {start: Date, end:Date}
   prevOccurrence: {start: Date, end:Date}
   scheduleText: String
-  legacySchedule: {
-    "dayNum": Number
-    "period": Number
-    "periodDay": [Number]
-    "ordinal": Number
-    "recurrenceInterval": Number
-    "dayofweek": Number
-    days: String
-    start: Date
-    end: Date
-    hour: Number
-    minute:Number
-    duration:Number
-  }
   legacyId: String
-  legacyBusinessId: String  
-  legacyHostId : String 
-  legacyImage: String
   tzOffset : Number  
 
 EventSchema.pre 'save', (next) ->

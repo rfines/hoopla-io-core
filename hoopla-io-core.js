@@ -19,7 +19,8 @@
     name: String,
     provider: String,
     postalCode: String,
-    nextRun: Date
+    nextRun: Date,
+    lastRun: Date
   });
 
   ApiUsageSchema = new mongoose.Schema({
@@ -231,13 +232,13 @@
           required: true
         },
         sourceId: {
-          type: Number,
-          required: true
+          type: Number
         },
         data: Mixed,
         lastUpdated: {
           type: Date,
-          required: true
+          required: true,
+          "default": Date.now
         }
       }
     ],
@@ -251,24 +252,7 @@
       end: Date
     },
     scheduleText: String,
-    legacySchedule: {
-      "dayNum": Number,
-      "period": Number,
-      "periodDay": [Number],
-      "ordinal": Number,
-      "recurrenceInterval": Number,
-      "dayofweek": Number,
-      days: String,
-      start: Date,
-      end: Date,
-      hour: Number,
-      minute: Number,
-      duration: Number
-    },
     legacyId: String,
-    legacyBusinessId: String,
-    legacyHostId: String,
-    legacyImage: String,
     tzOffset: Number
   });
 
