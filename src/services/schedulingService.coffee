@@ -1,7 +1,7 @@
 moment = require 'moment'
 later = require 'later'
 _ = require 'lodash'
-
+module.exports.Scheduler = {}
 module.exports.Scheduler.calculate= (item,cb) ->
   if item.schedules.length > 0
     out = {}

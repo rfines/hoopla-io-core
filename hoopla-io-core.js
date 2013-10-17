@@ -567,6 +567,8 @@
 
   _ = require('lodash');
 
+  module.exports.Scheduler = {};
+
   module.exports.Scheduler.calculate = function(item, cb) {
     var dayCount, e, endRange, m, minutesToAdd, nextOccurrence, now, o, occurrences, out, pastOccurrence, pastOccurrences, s, startRange, transformed, x;
     if (item.schedules.length > 0) {
