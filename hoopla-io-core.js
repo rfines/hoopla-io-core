@@ -563,7 +563,7 @@
 
   module.exports.Widget = mongoose.model('widget', WidgetSchema, 'widget');
 
-  module.exports.AggregationJobSchema = mongoose.model('aggregationJob', AggregationJobSchema, 'aggregationJob');
+  module.exports.AggregationJob = mongoose.model('aggregationJob', AggregationJobSchema, 'aggregationJob');
 
 }).call(this);
 
