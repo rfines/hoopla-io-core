@@ -1,3 +1,4 @@
+
 (function() {
   var AggregationJobSchema, ApiUsageSchema, BusinessSchema, BusinessTagSchema, CollaboratorRequestSchema, EventSchema, EventTagSchema, FeedSchema, MediaSchema, Mixed, ObjectId, OccurrenceSchema, PasswordResetSchema, PostalCodeSchema, PromotionRequestSchema, PromotionTargetSchema, Schema, SocialMediaLinkSchema, UserSchema, WidgetSchema, later, moment, mongoose, _;
 
