@@ -68,8 +68,7 @@ BusinessSchema = new Schema
         type:String
         required:true
       sourceId: 
-        type:Number
-        required:true
+        type:String
       data:Mixed
       lastUpdated: 
         type:Date
@@ -165,7 +164,7 @@ EventSchema = new Schema
         type:String
         required:true
       sourceId: 
-        type:Number
+        type:String
       data: Mixed
       lastUpdated: 
         type:Date

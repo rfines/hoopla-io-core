@@ -98,8 +98,7 @@
           required: true
         },
         sourceId: {
-          type: Number,
-          required: true
+          type: String
         },
         data: Mixed,
         lastUpdated: {
@@ -232,7 +231,7 @@
           required: true
         },
         sourceId: {
-          type: Number
+          type: String
         },
         data: Mixed,
         lastUpdated: {
