@@ -654,7 +654,7 @@
   };
 
   forLater = function(item, cb) {
-    var output, _ref, _ref1, _ref2;
+    var output, _ref, _ref1, _ref2, _ref3;
     output = {};
     if ((_ref = item.day) != null ? _ref.length : void 0) {
       output.d = item.day;
@@ -683,6 +683,9 @@
       output.wm = item.wm;
     } else if (item.weekOfMonth) {
       output.wm = item.weekOfMonth;
+    }
+    if (((_ref3 = output.dw) != null ? _ref3.length : void 0) === 0) {
+      delete output.dw;
     }
     return cb(null, output);
   };

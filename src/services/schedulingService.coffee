@@ -83,6 +83,8 @@ forLater = (item, cb) ->
     output.wm= item.wm
   else if item.weekOfMonth
     output.wm = item.weekOfMonth
+  if output.dw?.length is 0
+    delete output.dw
   cb null, output
 
 makeArray = (p) ->
