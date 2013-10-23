@@ -72,7 +72,6 @@ BusinessSchema = new Schema
       data:Mixed
       lastUpdated: 
         type:Date
-        required:true
         default: Date.now
     }
   ]    
@@ -169,7 +168,6 @@ EventSchema = new Schema
       data: Mixed
       lastUpdated: 
         type:Date
-        required:true
         default: Date.now
     }
   ]    
