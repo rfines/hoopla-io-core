@@ -103,7 +103,6 @@
         data: Mixed,
         lastUpdated: {
           type: Date,
-          required: true,
           "default": Date.now
         }
       }
@@ -237,7 +236,6 @@
         data: Mixed,
         lastUpdated: {
           type: Date,
-          required: true,
           "default": Date.now
         }
       }
