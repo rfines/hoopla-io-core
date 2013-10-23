@@ -64,7 +64,7 @@ BusinessSchema = new Schema
   }
   sources:[
     {
-      'type':
+      sourceType:
         type:String
         required:true
       sourceId: 
@@ -160,7 +160,7 @@ EventSchema = new Schema
   ]
   sources:[
     {
-      'type':
+      sourceType:
         type:String
         required:true
       sourceId: 

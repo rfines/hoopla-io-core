@@ -93,7 +93,7 @@
     },
     sources: [
       {
-        'type': {
+        sourceType: {
           type: String,
           required: true
         },
@@ -226,7 +226,7 @@
     ],
     sources: [
       {
-        'type': {
+        sourceType: {
           type: String,
           required: true
         },
