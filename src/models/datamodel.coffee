@@ -73,6 +73,7 @@ BusinessSchema = new Schema
       lastUpdated: 
         type:Date
         required:true
+        default: Date.now
     }
   ]    
   socialMediaLinks:[SocialMediaLinkSchema]
