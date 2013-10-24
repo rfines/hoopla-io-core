@@ -67,6 +67,7 @@ BusinessSchema = new Schema
       sourceType:
         type:String
         required:true
+        default: 'hoopla'
       sourceId: 
         type:String
       data:Mixed
@@ -163,6 +164,7 @@ EventSchema = new Schema
       sourceType:
         type:String
         required:true
+        default: 'hoopla'
       sourceId: 
         type:String
       data: Mixed

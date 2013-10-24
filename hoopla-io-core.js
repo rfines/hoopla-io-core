@@ -95,7 +95,8 @@
       {
         sourceType: {
           type: String,
-          required: true
+          required: true,
+          "default": 'hoopla'
         },
         sourceId: {
           type: String
@@ -228,7 +229,8 @@
       {
         sourceType: {
           type: String,
-          required: true
+          required: true,
+          "default": 'hoopla'
         },
         sourceId: {
           type: String
