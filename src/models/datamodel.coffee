@@ -302,7 +302,7 @@ UserSchema = new Schema
     required: true
     lowercase: true
     trim: true
-    validate: emailValidator
+    match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
   firstName: String
   lastName: String
   address1: String
