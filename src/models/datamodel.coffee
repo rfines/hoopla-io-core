@@ -302,6 +302,7 @@ UserSchema = new Schema
     required: true
     lowercase: true
     trim: true
+    validate: emailValidator
   firstName: String
   lastName: String
   address1: String
