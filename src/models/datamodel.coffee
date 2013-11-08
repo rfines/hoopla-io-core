@@ -179,6 +179,11 @@ EventSchema = new Schema
   scheduleText: String
   legacyId: String
   tzOffset : Number  
+  curatorApproved: Boolean
+  createUser: {type:ObjectId, ref:'user'}
+  createDate: 
+    type: Date
+    default: Date.now
 
 EventSchema.pre 'save', (next) ->
   module.exports.Scheduler.calculate @, (err, out) =>
