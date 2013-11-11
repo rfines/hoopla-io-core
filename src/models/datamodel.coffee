@@ -67,6 +67,7 @@ BusinessSchema = new Schema
       sourceType:
         type:String
         required:true
+        default: 'hoopla'
       sourceId: 
         type:String
       data:Mixed
@@ -160,6 +161,7 @@ EventSchema = new Schema
       sourceType:
         type:String
         required:true
+        default: 'hoopla'
       sourceId: 
         type:String
       data: Mixed
@@ -171,6 +173,11 @@ EventSchema = new Schema
   scheduleText: String
   legacyId: String
   tzOffset : Number  
+  curatorApproved: Boolean
+  createUser: {type:ObjectId, ref:'user'}
+  createDate: 
+    type: Date
+    default: Date.now
 
 EventSchema.pre 'save', (next) ->
   module.exports.Scheduler.calculate @, (err, out) =>
@@ -294,6 +301,7 @@ UserSchema = new Schema
     required: true
     lowercase: true
     trim: true
+    match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
   firstName: String
   lastName: String
   address1: String

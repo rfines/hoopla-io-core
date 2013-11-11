@@ -96,7 +96,8 @@
       {
         sourceType: {
           type: String,
-          required: true
+          required: true,
+          "default": 'hoopla'
         },
         sourceId: {
           type: String
@@ -225,7 +226,8 @@
       {
         sourceType: {
           type: String,
-          required: true
+          required: true,
+          "default": 'hoopla'
         },
         sourceId: {
           type: String
@@ -244,7 +246,16 @@
     },
     scheduleText: String,
     legacyId: String,
-    tzOffset: Number
+    tzOffset: Number,
+    curatorApproved: Boolean,
+    createUser: {
+      type: ObjectId,
+      ref: 'user'
+    },
+    createDate: {
+      type: Date,
+      "default": Date.now
+    }
   });
 
   EventSchema.pre('save', function(next) {
@@ -412,7 +423,8 @@
       type: String,
       required: true,
       lowercase: true,
-      trim: true
+      trim: true,
+      match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
     },
     firstName: String,
     lastName: String,
