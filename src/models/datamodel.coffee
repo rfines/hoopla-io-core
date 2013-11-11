@@ -369,11 +369,13 @@ WidgetSchema = new Schema
   }
   accentColor: String    
 
+
 module.exports.ApiUsage = mongoose.model('apiUsage', ApiUsageSchema, 'apiUsage')
 module.exports.Business = mongoose.model('business', BusinessSchema,'business')
 module.exports.BusinessTag = mongoose.model("businessTag", BusinessTagSchema, 'businessTag')  
 module.exports.CollaboratorRequest= mongoose.model('collaboratorRequest',CollaboratorRequestSchema, 'collaboratorRequest')
 module.exports.Event = mongoose.model('event', EventSchema, 'event')
+module.exports.RejectedEvent = mongoose.model('rejectedEvent', EventSchema, 'rejectedEvent')
 module.exports.EventTag = mongoose.model("eventTag", EventTagSchema, 'eventTag')
 module.exports.Feed = mongoose.model('feed', FeedSchema, 'feed')
 module.exports.Media= mongoose.model('media',MediaSchema, 'media')

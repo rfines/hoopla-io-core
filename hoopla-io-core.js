@@ -21,7 +21,6 @@
     postalCode: String,
     nextRun: Date,
     lastRun: Date
-    
   });
 
   ApiUsageSchema = new mongoose.Schema({
@@ -529,6 +528,8 @@
   module.exports.CollaboratorRequest = mongoose.model('collaboratorRequest', CollaboratorRequestSchema, 'collaboratorRequest');
 
   module.exports.Event = mongoose.model('event', EventSchema, 'event');
+
+  module.exports.RejectedEvent = mongoose.model('rejectedEvent', EventSchema, 'rejectedEvent');
 
   module.exports.EventTag = mongoose.model("eventTag", EventTagSchema, 'eventTag');
 
