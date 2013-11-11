@@ -21,6 +21,7 @@
     postalCode: String,
     nextRun: Date,
     lastRun: Date
+    
   });
 
   ApiUsageSchema = new mongoose.Schema({
@@ -100,11 +101,7 @@
         sourceId: {
           type: String
         },
-        data: Mixed,
-        lastUpdated: {
-          type: Date,
-          "default": Date.now
-        }
+        data: Mixed
       }
     ],
     socialMediaLinks: [SocialMediaLinkSchema],
@@ -233,11 +230,7 @@
         sourceId: {
           type: String
         },
-        data: Mixed,
-        lastUpdated: {
-          type: Date,
-          "default": Date.now
-        }
+        data: Mixed
       }
     ],
     occurrences: [OccurrenceSchema],

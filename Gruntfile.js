@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     coffee: {
       compile: {
         files: {
-          'temp/scripts/*.js': 'src/**/*.coffee' 
+          'temp/scripts/temp.js': 'src/**/*.coffee' 
         },
         options: {
           basePath: 'src'

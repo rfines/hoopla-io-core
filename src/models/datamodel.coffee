@@ -70,9 +70,6 @@ BusinessSchema = new Schema
       sourceId: 
         type:String
       data:Mixed
-      lastUpdated: 
-        type:Date
-        default: Date.now
     }
   ]    
   socialMediaLinks:[SocialMediaLinkSchema]
@@ -166,9 +163,6 @@ EventSchema = new Schema
       sourceId: 
         type:String
       data: Mixed
-      lastUpdated: 
-        type:Date
-        default: Date.now
     }
   ]    
   occurrences:[OccurrenceSchema]
