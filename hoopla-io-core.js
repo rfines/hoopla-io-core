@@ -38,6 +38,10 @@
     },
     apiToken: {
       type: String
+    },
+    apiCallDate: {
+      type: Date,
+      "default": Date.now
     }
   });
 
