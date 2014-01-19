@@ -372,6 +372,8 @@
     ticket_uri: String,
     link: String,
     caption: String,
+    description: String,
+    edit: Boolean,
     promotionTime: Date,
     promotionTarget: {
       type: ObjectId,
