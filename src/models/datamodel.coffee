@@ -24,7 +24,10 @@ ApiUsageSchema = new mongoose.Schema
     type: String
     required: true
   apiToken:
-    type:String        
+    type:String  
+  apiCallDate:
+    type:Date
+    default: Date.now          
 
 SocialMediaLinkSchema = new Schema
   target: String
